@@ -51,7 +51,7 @@ Explanation of each directory/file:
 
 `tsconfig.json`: TypeScript configuration file.
 
-The InputForm, MortgageGraph, and PaymentTable components are stateful functional components that will manage their state through React hooks. The App component will handle the overall state, including passing data and functions as props to child components.
+The `InputForm`, `MortgageGraph`, and `PaymentTable` components are stateful functional components that will manage their state through React hooks. The App component will handle the overall state, including passing data and functions as props to child components.
 
 
 ## Available Scripts

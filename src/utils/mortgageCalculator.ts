@@ -8,6 +8,7 @@ export function calculateMortgagePayments(
     mortgageLength: number,
     biweeklyPayments: number
   ): MortgagePayments {
+    let yMax = 0;
     // Assuming payments are made every two weeks
     const paymentFrequency = biweeklyPayments;
   
@@ -43,6 +44,10 @@ export function calculateMortgagePayments(
   
       // Accumulate total interest
       totalInterest += interestPayment;
+
+      if(yMax < interestPayment + principalPayment) {
+        yMax = interestPayment + principalPayment;
+      }
   
       // Store payment details
       payments.push({
@@ -53,8 +58,8 @@ export function calculateMortgagePayments(
   
     return {
       totalInterest,
-      xMax: numberOfPayments,
-      yMax: mortgagePayment,
+      xMax: payments.length,
+      yMax: yMax,
       payments,
     };
   }

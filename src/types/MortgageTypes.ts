@@ -2,6 +2,7 @@ export interface MortgagePayment
 {
     interest: number;
     principal: number;
+    remainingDebt: number;
 }
 
 export interface MortgagePayments
@@ -20,4 +21,10 @@ export interface MortgageInformation
     downPayment: number;
     mortgageLength: number;
     biweeklyPayments: number;
+}
+
+export interface AdditionalPayment
+{
+    paymentValue: number;
+    doneAfterMonth: number;
 }

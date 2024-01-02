@@ -1,29 +1,24 @@
-import { MortgagePayment, MortgagePayments } from "../types/MortgageTypes";
+import { MortgageInformation, MortgagePayment, MortgagePayments } from "../types/MortgageTypes";
 
 export function calculateMortgagePayments(
-    propertyValue: number,
-    mortgageInsuranceRate: number,
-    interestRate: number,
-    downPayment: number,
-    mortgageLength: number,
-    biweeklyPayments: number
+    mortgageInfo: MortgageInformation
   ): MortgagePayments {
     let yMax = 0;
     // Assuming payments are made every two weeks
-    const paymentFrequency = biweeklyPayments;
+    const paymentFrequency = mortgageInfo.biweeklyPayments;
   
     // Convert yearly interest rate to a decimal
-    const biweeklyInterestRate = interestRate / 100 / paymentFrequency;
+    const biweeklyInterestRate = mortgageInfo.interestRate / 100 / paymentFrequency;
   
     // Calculate the loan amount (property value - down payment)
-    let loanAmountBeforeInsurancePremium = propertyValue - downPayment;
+    let loanAmountBeforeInsurancePremium = mortgageInfo.propertyValue - mortgageInfo.downPayment;
 
-    const mortgageInsurancePremium = loanAmountBeforeInsurancePremium * (mortgageInsuranceRate / 100);
+    const mortgageInsurancePremium = loanAmountBeforeInsurancePremium * (mortgageInfo.mortgageInsuranceRate / 100);
 
     let loanAmount = loanAmountBeforeInsurancePremium + mortgageInsurancePremium;
   
     // Calculate the number of payments
-    const numberOfPayments = mortgageLength * paymentFrequency;
+    const numberOfPayments = mortgageInfo.mortgageLength * paymentFrequency;
   
     // Calculate the mortgage payment using the formula for an amortizing loan
     const mortgagePayment =

@@ -1,15 +1,19 @@
 import React, { useState } from 'react';
-import { MortgagePayment } from '../../types/MortgageTypes';
+import { MortgageInformation, MortgagePayment } from '../../types/MortgageTypes';
 import './InputForm.css';
 
 interface InputFormProps {
-  onCalculate: (data: MortgagePayment) => void;
+  onCalculate: (data: MortgageInformation) => void;
 }
 
 const InputForm: React.FC<InputFormProps> = ({ onCalculate }) => {
-  const [formData, setFormData] = useState<MortgagePayment>({
-    interest: 0,
-    principal: 0,
+  const [formData, setFormData] = useState<MortgageInformation>({
+    propertyValue: 779000,
+    mortgageInsuranceRate: 3.15,
+    interestRate: 4.81,
+    downPayment: 112000,
+    mortgageLength: 25,
+    biweeklyPayments: 26,
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -25,12 +29,28 @@ const InputForm: React.FC<InputFormProps> = ({ onCalculate }) => {
   return (
     <form className="input-form" onSubmit={handleSubmit}>
       <label>
-        Interest:
-        <input type="number" name="interest" value={formData.interest} onChange={handleChange} />
+        Property Value:
+        <input type="number" name="propertyValue" value={formData.propertyValue} onChange={handleChange} />
       </label>
       <label>
-        Principal:
-        <input type="number" name="principal" value={formData.principal} onChange={handleChange} />
+        Mortgage Insurance Rate:
+        <input type="number" name="mortgageInsuranceRate" value={formData.mortgageInsuranceRate} onChange={handleChange} />
+      </label>
+      <label>
+        Interest Rate:
+        <input type="number" name="interestRate" value={formData.interestRate} onChange={handleChange} />
+      </label>
+      <label>
+        Down Payment:
+        <input type="number" name="downPayment" value={formData.downPayment} onChange={handleChange} />
+      </label>
+      <label>
+        Mortgage Length:
+        <input type="number" name="mortgageLength" value={formData.mortgageLength} onChange={handleChange} />
+      </label>
+      <label>
+        Biweekly Payments:
+        <input type="number" name="biweeklyPayments" value={formData.biweeklyPayments} onChange={handleChange} />
       </label>
       <button type="submit">Calculate</button>
     </form>

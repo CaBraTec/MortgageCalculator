@@ -11,3 +11,13 @@ export interface MortgagePayments
     yMax: number;
     payments: MortgagePayment[];
 }
+
+export interface MortgageInformation
+{
+    propertyValue: number;
+    mortgageInsuranceRate: number;
+    interestRate: number;
+    downPayment: number;
+    mortgageLength: number;
+    biweeklyPayments: number;
+}

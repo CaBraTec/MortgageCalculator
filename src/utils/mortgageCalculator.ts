@@ -30,7 +30,7 @@ export function calculateMortgagePayments(
     let totalInterest = 0;
     const payments: MortgagePayment[] = [];
 
-    const additionalPaymentValues = organizePayments(numberOfPayments, additionalPayments);
+    const additionalPaymentValues = organizePayments(numberOfPayments, mortgageInfo.additionalPayments);
   
     // Calculate the mortgage payments and store the results
     for (let paymentNumber = 1; paymentNumber <= numberOfPayments; paymentNumber++) {

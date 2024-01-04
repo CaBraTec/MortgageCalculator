@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { MortgageInformation, MortgagePayment } from '../../types/MortgageTypes';
+import { AdditionalPayment, MortgageInformation, MortgagePayment } from '../../types/MortgageTypes';
 import './InputForm.css';
 
 interface InputFormProps {
@@ -7,6 +7,25 @@ interface InputFormProps {
 }
 
 const InputForm: React.FC<InputFormProps> = ({ onCalculate }) => {
+  const additionalPayments: AdditionalPayment[] = [
+    {
+      paymentValue: 550,
+      doneAfterMonth: 9,
+    },
+    {
+      paymentValue: 550,
+      doneAfterMonth: 10,
+    },
+    {
+      paymentValue: 550,
+      doneAfterMonth: 11,
+    },
+    {
+      paymentValue: 550,
+      doneAfterMonth: 12,
+    }
+  ]
+
   const [formData, setFormData] = useState<MortgageInformation>({
     propertyValue: 779000,
     mortgageInsuranceRate: 3.15,
@@ -14,6 +33,7 @@ const InputForm: React.FC<InputFormProps> = ({ onCalculate }) => {
     downPayment: 112000,
     mortgageLength: 25,
     biweeklyPayments: 26,
+    additionalPayments: additionalPayments,
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {

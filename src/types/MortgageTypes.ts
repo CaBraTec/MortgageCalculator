@@ -21,6 +21,7 @@ export interface MortgageInformation
     downPayment: number;
     mortgageLength: number;
     biweeklyPayments: number;
+    additionalPayments: AdditionalPayment[];
 }
 
 export interface AdditionalPayment

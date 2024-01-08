@@ -7,24 +7,17 @@ interface InputFormProps {
 }
 
 const InputForm: React.FC<InputFormProps> = ({ onCalculate }) => {
-  const additionalPayments: AdditionalPayment[] = [
-    {
-      paymentValue: 550,
-      doneAfterMonth: 9,
-    },
-    {
-      paymentValue: 550,
-      doneAfterMonth: 10,
-    },
-    {
-      paymentValue: 550,
-      doneAfterMonth: 11,
-    },
-    {
-      paymentValue: 550,
-      doneAfterMonth: 12,
-    }
-  ]
+  const paymentList = [];
+
+  const paymentValue = 550;
+
+  for (let month = 13; month <= 300; month++) {
+      paymentList.push({
+          paymentValue: paymentValue,
+          doneAfterMonth: month,
+      });
+  }
+  const additionalPayments: AdditionalPayment[] = paymentList;
 
   const [formData, setFormData] = useState<MortgageInformation>({
     propertyValue: 779000,

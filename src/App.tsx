@@ -4,8 +4,7 @@ import { MortgageInformation, MortgagePayments } from './types/MortgageTypes';
 import { calculateMortgagePayments } from './utils/mortgageCalculator';
 import './App.css';
 import PaymentsTable from './components/PaymentsTable/PaymentsTable';
-import { BarChart, Bar, XAxis, YAxis, 
-  CartesianGrid, Tooltip, Legend } from 'recharts';
+import PaymentsGraph from './components/PaymentsGraph/PaymentsGraph';
 
 const App: React.FC = () => {
   const [mortgagePayments, setMortgagePayments] = useState<MortgagePayments | null>(null);
@@ -29,20 +28,7 @@ const App: React.FC = () => {
       </div>
       <div className="bottom-container">
         {mortgagePayments && (
-          <BarChart
-            width={window.innerWidth}
-            height={500}
-            data={mortgagePayments.payments}
-            margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
-          >
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="name" />
-            <YAxis />
-            <Tooltip />
-            <Legend />
-            <Bar dataKey="interest" stackId="a" fill="#8884d8" name="Interest" />
-            <Bar dataKey="principal" stackId="a" fill="#82ca9d" name="Principal" />
-          </BarChart>
+          <PaymentsGraph payments={mortgagePayments.payments}/>
         )}
       </div>
     </div>

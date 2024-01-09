@@ -1,5 +1,6 @@
 export interface MortgagePayment
 {
+    index: number;
     interest: number;
     principal: number;
     remainingDebt: number;

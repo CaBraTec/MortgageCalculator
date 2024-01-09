@@ -19,10 +19,10 @@ const PaymentsTable: React.FC<PaymentTableProps> = (mortgagePayments: PaymentTab
             {mortgagePayments.payments.map((item, key) => (
                 <tr key={key}>
                 <td>{key+1}</td>
-                <td>${item.interest.toFixed(2)}</td>
-                <td>${item.principal.toFixed(2)}</td>
+                <td>${item.interest}</td>
+                <td>${item.principal}</td>
                 <td>${(item.principal + item.interest).toFixed(2)}</td>
-                <td>${item.remainingDebt.toFixed(2)}</td>
+                <td>${item.remainingDebt}</td>
                 </tr>
             ))}
         </table>

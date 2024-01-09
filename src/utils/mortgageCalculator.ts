@@ -55,6 +55,7 @@ export function calculateMortgagePayments(
   
       // Store payment details
       payments.push({
+        index: paymentNumber,
         interest: parseFloat(interestPayment.toFixed(2)),
         principal: parseFloat((principalPayment + additionalPaymentValues[paymentNumber]).toFixed(2)),
         remainingDebt: parseFloat(loanAmount.toFixed(2)),

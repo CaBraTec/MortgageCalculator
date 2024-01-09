@@ -7,22 +7,23 @@ interface PaymentTableProps {
 }
 
 const PaymentsTable: React.FC<PaymentTableProps> = (mortgagePayments: PaymentTableProps) => {
+    let formatNumber = (number: number): string => number.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     return (
         <table className='payments-table'>
             <tr className='table-head'>
                 <td>Payment Number</td>
-                <td>Principal</td>
                 <td>Interest</td>
+                <td>Principal</td>
                 <td>Total</td>
                 <td>Remaining Debt</td>
             </tr>
             {mortgagePayments.payments.map((item, key) => (
                 <tr key={key}>
                 <td>{key+1}</td>
-                <td>${item.interest}</td>
-                <td>${item.principal}</td>
-                <td>${(item.principal + item.interest).toFixed(2)}</td>
-                <td>${item.remainingDebt}</td>
+                <td>${formatNumber(item.interest)}</td>
+                <td>${formatNumber(item.principal)}</td>
+                <td>${formatNumber(item.principal + item.interest)}</td>
+                <td>${formatNumber(item.remainingDebt)}</td>
                 </tr>
             ))}
         </table>

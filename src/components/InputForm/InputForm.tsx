@@ -66,7 +66,7 @@ const InputForm: React.FC<InputFormProps> = ({ onCalculate }) => {
             <input type="number" name="mortgageLength" value={formData.mortgageLength} onChange={handleChange} />
           </label>
           <label>
-            Biweekly Payments
+            Payments per Year
             <input type="number" name="biweeklyPayments" value={formData.biweeklyPayments} onChange={handleChange} />
           </label>
           <label>

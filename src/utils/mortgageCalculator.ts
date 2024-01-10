@@ -1,81 +1,83 @@
 import { AdditionalPayment, MortgageInformation, MortgagePayment, MortgagePayments } from "../types/MortgageTypes";
 
-export function calculateMortgagePayments(
-    mortgageInfo: MortgageInformation
-  ): MortgagePayments {
-    let yMax = 0;
-    // Assuming payments are made every two weeks
-    const paymentFrequency = mortgageInfo.biweeklyPayments;
-  
-    // Convert yearly interest rate to to periodic interest rate (e.g. year -> biweekly)
-    const interestRateForEachPayment = mortgageInfo.interestRate / 100 / paymentFrequency;
+export function calculateMortgagePayments(mortgageInfo: MortgageInformation): MortgagePayments {
+  const paymentFrequency = mortgageInfo.biweeklyPayments;
+  const interestRateForEachPayment = mortgageInfo.interestRate / 100 / paymentFrequency;
 
-  
-    // Calculate the loan amount (property value - down payment)
-    let loanAmountBeforeInsurancePremium = mortgageInfo.propertyValue - mortgageInfo.downPayment;
+  let loanAmount = calculateLoanAmount(mortgageInfo);
 
-    const mortgageInsurancePremium = loanAmountBeforeInsurancePremium * (mortgageInfo.mortgageInsuranceRate / 100);
+  const numberOfPayments = mortgageInfo.mortgageLength * paymentFrequency;
+  const defaultMortgagePayment = calculateDefaultMortgagePayment(loanAmount, interestRateForEachPayment, numberOfPayments);
 
-    let loanAmount = loanAmountBeforeInsurancePremium + mortgageInsurancePremium;
-  
-    // Calculate the number of payments
-    const numberOfPayments = mortgageInfo.mortgageLength * paymentFrequency;
-  
-    // Calculate the mortgage payment using the formula for an amortizing loan
-    const defaultMortgagePayment =
-      (loanAmount * interestRateForEachPayment) /
-      (1 - Math.pow(1 + interestRateForEachPayment, -numberOfPayments));
-  
-    // Initialize variables
-    let totalInterest = 0;
-    const payments: MortgagePayment[] = [];
+  let totalInterest = 0;
+  let yMax = 0;
+  const payments: MortgagePayment[] = [];
 
-    const additionalPaymentValues = organizePayments(numberOfPayments, mortgageInfo.additionalPayments);
-  
-    // Calculate the mortgage payments and store the results
-    for (let paymentNumber = 1; paymentNumber <= numberOfPayments; paymentNumber++) {
-      const interestPayment = loanAmount * interestRateForEachPayment;
+  const additionalPaymentValues = organizePayments(numberOfPayments, mortgageInfo.additionalPayments);
 
-      // if we are finishing off the debt before the end of the loan, don't overpay
-      const mortgagePayment = defaultMortgagePayment < (loanAmount + interestPayment)
-        ? defaultMortgagePayment 
-        : loanAmount + interestPayment;
+  calculateAndStorePayments(
+    numberOfPayments,
+    loanAmount,
+    defaultMortgagePayment,
+    interestRateForEachPayment,
+    additionalPaymentValues,
+    payments,
+    totalInterest,
+    yMax
+  );
 
-      const principalPayment = mortgagePayment - interestPayment;
-  
-      // Update the loan amount for the next iteration
-      loanAmount = loanAmount - principalPayment - additionalPaymentValues[paymentNumber];
-  
-      // Accumulate total interest
-      totalInterest += interestPayment;
+  return {
+    totalInterest,
+    xMax: payments.length,
+    yMax,
+    payments,
+  };
+}
 
-      if(yMax < interestPayment + principalPayment) {
-        yMax = interestPayment + principalPayment;
-      }
-  
-      // Store payment details
-      payments.push({
-        index: paymentNumber,
-        interest: parseFloat(interestPayment.toFixed(2)),
-        principal: parseFloat((principalPayment + additionalPaymentValues[paymentNumber]).toFixed(2)),
-        remainingDebt: parseFloat(loanAmount.toFixed(2)),
-      });
-    }
-  
-    return {
-      totalInterest,
-      xMax: payments.length,
-      yMax: yMax,
-      payments,
-    };
-  }
+function calculateLoanAmount(mortgageInfo: MortgageInformation): number {
+  const loanAmountBeforeInsurancePremium = mortgageInfo.propertyValue - mortgageInfo.downPayment;
+  const mortgageInsurancePremium = loanAmountBeforeInsurancePremium * (mortgageInfo.mortgageInsuranceRate / 100);
+  return loanAmountBeforeInsurancePremium + mortgageInsurancePremium;
+}
 
-  export function organizePayments(numberOfPayments: number, payments: AdditionalPayment[]) {
-    let additionalPayments = Array(numberOfPayments+1).fill(0);
+function calculateDefaultMortgagePayment(loanAmount: number, interestRateForEachPayment: number, numberOfPayments: number): number {
+  return (loanAmount * interestRateForEachPayment) / (1 - Math.pow(1 + interestRateForEachPayment, -numberOfPayments));
+}
 
-    payments.forEach(payment => {
-      additionalPayments[payment.doneAfterMonth] += payment.paymentValue;
-    })
+function calculateAndStorePayments(
+  numberOfPayments: number,
+  loanAmount: number,
+  defaultMortgagePayment: number,
+  interestRateForEachPayment: number,
+  additionalPaymentValues: number[],
+  payments: MortgagePayment[],
+  totalInterest: number,
+  yMax: number
+) {
+  Array.from({ length: numberOfPayments }, (_, paymentNumber) => {
+    const interestPayment = loanAmount * interestRateForEachPayment;
+    const mortgagePayment = defaultMortgagePayment < loanAmount + interestPayment
+      ? defaultMortgagePayment
+      : loanAmount + interestPayment;
+    const principalPayment = mortgagePayment - interestPayment;
 
+    loanAmount = loanAmount - principalPayment - additionalPaymentValues[paymentNumber];
+    totalInterest += interestPayment;
+
+    yMax = Math.max(yMax, interestPayment + principalPayment);
+
+    payments.push({
+      index: paymentNumber + 1,
+      interest: parseFloat(interestPayment.toFixed(2)),
+      principal: parseFloat((principalPayment + additionalPaymentValues[paymentNumber]).toFixed(2)),
+      remainingDebt: parseFloat(loanAmount.toFixed(2)),
+    });
+  });
+}
+
+export function organizePayments(numberOfPayments: number, payments: AdditionalPayment[]): number[] {
+  return payments.reduce((additionalPayments, payment) => {
+    additionalPayments[payment.doneAfterMonth] += payment.paymentValue;
     return additionalPayments;
-  }
+  }, Array(numberOfPayments + 1).fill(0));
+}

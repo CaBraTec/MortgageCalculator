@@ -13,13 +13,13 @@ const PaymentsGraph: React.FC<PaymentGraphProps> = (mortgagePayments: PaymentGra
             width={window.innerWidth}
             height={500}
             data={mortgagePayments.payments}
-            margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+            margin={{ top: 20, right: 30, left: 20, bottom: 15 }}
         >
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey="index" />
             <YAxis />
             <Tooltip />
-            <Legend />
+            <Legend layout="horizontal" verticalAlign="top" align="right"/>
             <Bar dataKey="interest" stackId="a" fill="#8884d8" name="Interest" />
             <Bar dataKey="principal" stackId="a" fill="#82ca9d" name="Principal" />
         </BarChart>

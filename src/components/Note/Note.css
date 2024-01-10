@@ -1,0 +1,13 @@
+.note {
+    display: flex;
+    overflow: auto;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    margin-bottom: 15px;
+}
+
+.icon {
+    margin-right: 5px;
+}

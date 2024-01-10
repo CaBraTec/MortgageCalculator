@@ -2,6 +2,8 @@ body, html {
   margin: 0;
   padding: 0;
   height: 100%;
+  overflow: hidden;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
 .app {
@@ -13,25 +15,26 @@ body, html {
 
 .top-container {
   display: flex;
-  flex-direction: row;
-  height: 50%;
-  width: 100%;
-}
-
-.bottom-container {
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-  height: 50%;
+  background-color: #f2f2f2;
+  height: 45%;
+  padding: 20px;
 }
 
 .form-container {
   flex: 1;
-  padding: 20px;
+  margin-bottom: 20px;
 }
 
 .table-container {
-  flex: 4;
-  padding: 20px;
-  overflow: scroll;
+  flex: 2;
+  margin-left: 20px;
+}
+
+.notes-container {
+  flex: 2;
+  margin-left: 20px;
+}
+
+.bottom-container {
+  display: flex;
 }

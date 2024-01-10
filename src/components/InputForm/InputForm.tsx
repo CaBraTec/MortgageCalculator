@@ -40,33 +40,56 @@ const InputForm: React.FC<InputFormProps> = ({ onCalculate }) => {
   };
 
   return (
-    <form className="input-form" onSubmit={handleSubmit}>
-      <label>
-        Property Value:
-        <input type="number" name="propertyValue" value={formData.propertyValue} onChange={handleChange} />
-      </label>
-      <label>
-        Mortgage Insurance Rate:
-        <input type="number" name="mortgageInsuranceRate" value={formData.mortgageInsuranceRate} onChange={handleChange} />
-      </label>
-      <label>
-        Interest Rate:
-        <input type="number" name="interestRate" value={formData.interestRate} onChange={handleChange} />
-      </label>
-      <label>
-        Down Payment:
-        <input type="number" name="downPayment" value={formData.downPayment} onChange={handleChange} />
-      </label>
-      <label>
-        Mortgage Length:
-        <input type="number" name="mortgageLength" value={formData.mortgageLength} onChange={handleChange} />
-      </label>
-      <label>
-        Biweekly Payments:
-        <input type="number" name="biweeklyPayments" value={formData.biweeklyPayments} onChange={handleChange} />
-      </label>
-      <button type="submit">Calculate</button>
-    </form>
+    <>
+      <form className="input-form" onSubmit={handleSubmit}>
+        <div className='section-1'>
+          <label>
+            Property Value
+            <input type="number" name="propertyValue" value={formData.propertyValue} onChange={handleChange} />
+          </label>
+          <label>
+            Mortgage Insurance Rate
+            <input type="number" name="mortgageInsuranceRate" value={formData.mortgageInsuranceRate} onChange={handleChange} />
+          </label>
+          <label>
+            Interest Rate
+            <input type="number" name="interestRate" value={formData.interestRate} onChange={handleChange} />
+          </label>
+          <label>
+            Down Payment
+            <input type="number" name="downPayment" value={formData.downPayment} onChange={handleChange} />
+          </label>
+        </div>
+        <div className='section-2'>
+          <label>
+            Mortgage Length
+            <input type="number" name="mortgageLength" value={formData.mortgageLength} onChange={handleChange} />
+          </label>
+          <label>
+            Payments per Year
+            <input type="number" name="biweeklyPayments" value={formData.biweeklyPayments} onChange={handleChange} />
+          </label>
+          <label>
+            Additional Payments
+            <div className='additional-payments'>
+              <label>
+                Start
+                <input type="number" name="additionalPaymentStart" value={formData.biweeklyPayments} />
+              </label>
+              <label>
+                End
+                <input type="number" name="additionalPaymentEnd" value={formData.biweeklyPayments} />
+              </label>
+              <label>
+                Value
+                <input type="number" name="additionalPaymentValue" value={formData.biweeklyPayments} />
+              </label>
+            </div>
+          </label>
+          <button type="submit">Calculate</button>
+        </div>
+      </form>
+    </>
   );
 };
 

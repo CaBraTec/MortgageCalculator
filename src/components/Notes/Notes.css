@@ -1,0 +1,12 @@
+.notes {
+    max-height: 100%;
+    overflow: auto;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 0 10px 0 10px;
+}
+
+.title {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
